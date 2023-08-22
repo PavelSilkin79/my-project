@@ -1,0 +1,11 @@
+{% load human_tags %}
+
+
+
+<div class="list-group">
+    {{ arg1 }} {{ arg2 }}
+    {% get_list_professions as professions %}
+    {% for prof in professions %}
+    <a href="{{ prof.get_absolute.url }}" class="list-group-item list-group-item-action">{{ prof.title }}</a>
+    {% endfor %}
+</div>>

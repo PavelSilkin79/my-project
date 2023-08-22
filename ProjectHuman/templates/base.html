@@ -1,0 +1,71 @@
+
+
+<!doctype html>
+{% include 'inc/_nav.html' %}
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--       <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">-->
+       <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <title>{% block name %}Профессии со всего мира{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  </head>
+  <body>
+
+
+        <div class="container mt-3">
+            <h1>{{ name }}</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    {% block sidebar %}SIDEBAR{% endblock %}
+                </div>
+                <div class="col-md-8">
+                    {% block content %}CONTENT{% endblock %}
+                </div>
+                <div class="col-md-4">
+                    <div class="list-group">
+                        {% for prof in professions %}
+                            <a href="{% url 'Profession' prof.id %}" class="list-group-item list-group-item-action">{{ prof.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    {% for item in human %}
+                        <div class="card mb-3">
+                            {{ forloop.counter }}
+                                <div class="card-header">
+                                    Профессия: <a href="{% url 'Profession' item.profession.pk %}">{{ item.profession }}</a>
+                                </div>
+                                    <div class="media" style="display:flex">
+                                    <div class="media-photo">
+                                        {% if item.photo %}
+                                            <img src="{{ item.photo.url }}" class="mr-3" width="350" alt="Photo">
+                                        {% else %}
+                                            <h6>Фото нет</h6>
+                                        {% endif %}
+                                    </div>
+                                 <div class="media-body">
+                                    <h5 class="card-title {% cycle 'text-success' 'text-danger' 'text-primary' 'text-warning' %}">{{ item.name }}</h5>
+                                    {% autoescape off %}
+                                    <p class="card-text">{{ item.content|truncatewords:60|linebreaks }}</p>
+                                    {% endautoescape %}
+                                    <a href="#" class="btn btn-primary">Read more...</a>
+                                 </div>
+                                <div class="card-footer text-body-secondary">
+                                                {{ item.age|date:'Y-m-d'}}
+                                </div>
+                            </div>
+                    {% endfor %}
+                 </div>
+                </div>
+            </div>
+        </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<!--  <script src="{% static 'bootstrap/css/bootstrap.min.js' %}"></script>-->
+  </body>
+</html>
